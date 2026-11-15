@@ -44,7 +44,7 @@ export default function Home() {
     <main className="shell">
       <header className="topbar">
         <a className="brand" href="/" aria-label="Memovya accueil"><BrandMark /> MEMOVYA</a>
-        <a className="top-link" href="mailto:contact@memovya.com">Nous contacter ↗</a>
+        <a className="top-link" href="/login">Connexion ↗</a>
       </header>
       <section className="hero">
         <div>

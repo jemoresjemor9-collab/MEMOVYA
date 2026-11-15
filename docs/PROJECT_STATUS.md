@@ -41,10 +41,12 @@ Last updated: 2026-11-16
 - Node runtime: 24.x
 - Function region: cdg1 (Paris)
 - Preview deployments are protected by Vercel authentication; production deployments are not protected by Vercel SSO.
-- No deployment has been created yet; no production domain has been assigned yet.
+- Initial deployment created from a GitHub source snapshot: deployment ID dpl_FijS5hyk8FDbJGnvLtFneMNCynk6. Last observed state: BUILDING (npm install had started; final build result not yet verified).
+- Temporary deployment URL: https://memovya-2sqit4ya8-jemoresjemor9-6990.vercel.app
+- Vercel assigned alias: memovya-jemoresjemor9-6990.vercel.app.
+- Attempt to reserve memovya.vercel.app failed: Vercel reports that this domain is already assigned to another project. Do not claim it is available; user must either have the current owner release it or approve an alternative domain.
 - Attempt to create Git-linked project failed because the Vercel GitHub App integration is not installed/authorized for the GitHub account/repository.
 - User action required: install/authorize Vercel's GitHub App for the GitHub account and grant access to repository jemoresjemor9-collab/MEMOVYA. Then link the repository to the existing Vercel project memovya. Do not create a second project.
-- Desired default URL: memovya.vercel.app, if Vercel confirms availability.
 
 ## Source files committed
 
@@ -84,7 +86,8 @@ Not yet verified:
 
 1. User installs/authorizes Vercel GitHub App for the GitHub account and repository MEMOVYA.
 2. Link the existing GitHub repository to the existing Vercel project memovya. Do not create another project.
-3. Trigger first preview deployment and inspect build logs; fix any build errors before moving on.
+3. Inspect and resolve the currently building deployment; verify the UI before any public launch.
+4. Trigger a Git-linked preview deployment and inspect build logs; fix any build errors before moving on.
 4. Verify Vercel environment variables are present in production, preview and development.
 5. Design and review the initial database schema before applying migrations.
 6. Configure Supabase Auth (email/password, verification, password reset, session management); plan Google OAuth after user creates OAuth credentials in Google Cloud.

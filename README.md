@@ -34,14 +34,18 @@ Never put a Supabase service-role/secret key in a `NEXT_PUBLIC_*` variable or br
 - [x] GitHub repository created
 - [x] Supabase project provisioned in eu-west-3
 - [x] Initial Next.js app shell committed
-- [ ] Vercel project linked and first preview deployed
+- [x] Vercel project `memovya` created (GitHub integration still needs installation)
+- [x] Public Supabase URL and publishable key configured in Vercel environments
+- [x] Initial landing and login-preparation screens committed
+- [ ] Install Vercel GitHub integration and link `jemoresjemor9-collab/MEMOVYA`
+- [ ] First preview deployment and build verification
 - [ ] Supabase Auth integration
 - [ ] Database schema and RLS policies
 - [ ] Private Storage bucket and ownership policies
 - [ ] Upload/download flow and quota enforcement
 - [ ] Independent file backups and tested restoration
 
-The landing page is an initial UI foundation only. It is not an authentication system or a functioning file-storage service yet.
+The landing and login-preparation pages are UI foundations only. Login fields remain disabled until Supabase Auth is implemented and tested. The app is not yet a functioning file-storage service.
 
 ## Non-negotiable data safety
 

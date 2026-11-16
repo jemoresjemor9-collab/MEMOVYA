@@ -80,7 +80,8 @@ Verified:
 
 Not yet verified:
 - No local install or separate ESLint run has been performed.
-- GitHub push triggered Vercel preview deployments for `feature/auth-email-password`; the latest deployment was queued at last check, so successful build is not yet verified.
+- GitHub push triggered Vercel preview deployments for `feature/auth-email-password`.
+- Auth source build verified READY on Vercel deployment `dpl_3TuisB1YCew6rdnj8VARS1PjHBXL` (commit `10e6b402bb60ccd026a432fb33b4023330a00eaf`): Next.js compilation, TypeScript, static generation and route analysis completed successfully.
 - No package lockfile has yet been generated/committed; dependencies in package.json are pinned to exact Supabase versions pending lockfile generation.
 - Supabase Auth code is committed on branch `feature/auth-email-password`; live sign-up/sign-in has not yet been tested.
 - Supabase Auth setting `Email confirmations` has NOT been disabled yet. It must be turned off in the Supabase dashboard to allow registration without email verification, as requested.

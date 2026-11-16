@@ -160,3 +160,20 @@ h1, h2, h3, p { margin-top: 0; }
   .dashboard-head { align-items: flex-start; }
   .dashboard-placeholder { grid-template-columns: 1fr; }
 }
+
+
+/* MEMOVYA brand-first surfaces: no white panels or white page backgrounds */
+:root { color-scheme: light; --ink:#173A82; --muted:#4263A4; --surface:#DCE8FF; --background:#C9DAFF; --line:rgba(37,99,235,.22); --shadow:0 24px 70px rgba(23,58,130,.18); }
+html, body { background:#C9DAFF; color:#173A82; }
+body { background:radial-gradient(ellipse at 10% 8%,rgba(37,99,235,.30),transparent 34rem),radial-gradient(ellipse at 90% 88%,rgba(136,92,246,.24),transparent 32rem),linear-gradient(135deg,#C9DAFF 0%,#DCE8FF 52%,#C8F1E3 100%); }
+.eyebrow { border-color:rgba(37,99,235,.24); color:#173A82; background:#DCE8FF; }
+.top-link { color:#31569B; }
+.preview-card, .auth-card, .dashboard-panel { color:#173A82; border-color:rgba(37,99,235,.22); background:linear-gradient(145deg,#DCE8FF,#D5E0FF 62%,#C8F1E3); }
+.file-tile, .dashboard-tile, .auth-field input, .button-secondary, .auth-google { color:#173A82; border-color:rgba(37,99,235,.22); background:#C9DAFF; }
+.auth-field { color:#244B99; }
+.auth-field input::placeholder { color:#5272B2; }
+.auth-description, .hero-copy, .preview-label, .file-tile small, .auth-note, .footer, .trust-row { color:#4263A4; }
+.auth-message { background:#C8F1E3; color:#126B50; border-color:rgba(16,185,129,.5); }
+.auth-error { background:#E5D9FF; color:#5735A6; border-color:rgba(136,92,246,.5); }
+.preview-foot { background:#C8F1E3; color:#126B50; }
+.auth-submit, .button-primary { color:#EAF0FF; }

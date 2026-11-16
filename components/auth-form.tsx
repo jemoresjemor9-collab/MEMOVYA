@@ -14,6 +14,10 @@ export default function AuthForm({ mode }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [recoveryPassword, setRecoveryPassword] = useState("");
+  const [confirmRecoveryPassword, setConfirmRecoveryPassword] = useState("");
+  const [finalCode, setFinalCode] = useState("");
+  const [confirmFinalCode, setConfirmFinalCode] = useState("");
   const [description, setDescription] = useState("");
   const [busy, setBusy] = useState(false);
   const [googleBusy, setGoogleBusy] = useState(false);
@@ -24,6 +28,15 @@ export default function AuthForm({ mode }: Props) {
       setError("La connexion Google n'a pas abouti. Vérifiez que le fournisseur Google est activé et que les URL de redirection sont autorisées dans Supabase.");
     }
   }, []);
+
+  async function saveRecoveryCredentials() {
+    const { error: setupError } = await supabase.functions.invoke("memovya-account-recovery", {
+      body: { action: "setup", recovery_password: recoveryPassword, final_code: finalCode },
+    });
+    if (setupError) {
+      throw new Error("Le compte est créé, mais les codes de récupération n'ont pas pu être enregistrés. Réessayez sans fermer cette page.");
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,12 +53,16 @@ export default function AuthForm({ mode }: Props) {
         setError("Renseignez votre prénom et votre nom de famille.");
         return;
       }
-      if (password.length < 10) {
-        setError("Le mot de passe doit contenir au moins 10 caractères.");
+      if (password.length < 10 || password !== confirmPassword) {
+        setError("Le mot de passe principal doit contenir au moins 10 caractères et les deux saisies doivent correspondre.");
         return;
       }
-      if (password !== confirmPassword) {
-        setError("Les deux mots de passe ne correspondent pas.");
+      if (recoveryPassword.length < 10 || recoveryPassword !== confirmRecoveryPassword || recoveryPassword === password) {
+        setError("Le deuxième mot de passe doit contenir au moins 10 caractères, être confirmé et être différent du mot de passe principal.");
+        return;
+      }
+      if (finalCode.length < 12 || /\s/.test(finalCode) || finalCode !== confirmFinalCode || finalCode === password || finalCode === recoveryPassword) {
+        setError("Le code final doit contenir au moins 12 caractères, sans espace, être confirmé et être différent des deux autres codes.");
         return;
       }
     }
@@ -53,6 +70,18 @@ export default function AuthForm({ mode }: Props) {
     setBusy(true);
     try {
       if (mode === "signup") {
+        // If a previous signup succeeded but recovery setup failed, allow the signed-in user to retry setup.
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData.session) {
+          const { data: userData } = await supabase.auth.getUser();
+          if (userData.user?.email?.toLowerCase() === normalizedEmail) {
+            await saveRecoveryCredentials();
+            router.replace("/dashboard");
+            router.refresh();
+            return;
+          }
+        }
+
         const cleanFirstName = firstName.trim();
         const cleanLastName = lastName.trim();
         const { data, error: authError } = await supabase.auth.signUp({
@@ -70,14 +99,13 @@ export default function AuthForm({ mode }: Props) {
 
         if (authError) throw authError;
         if (data.session) {
+          await saveRecoveryCredentials();
           router.replace("/dashboard");
           router.refresh();
           return;
         }
 
-        setError(
-          "Le compte a été créé, mais Supabase n'a pas ouvert de session. La confirmation par e-mail doit être désactivée dans les paramètres Auth de MEMOVYA. Aucun e-mail de confirmation ne doit être nécessaire."
-        );
+        setError("Le compte a été créé, mais Supabase n'a pas ouvert de session. La confirmation par e-mail doit être désactivée dans les paramètres Auth de MEMOVYA.");
       } else {
         const { error: authError } = await supabase.auth.signInWithPassword({
           email: normalizedEmail,
@@ -133,70 +161,54 @@ export default function AuthForm({ mode }: Props) {
           <>
             <label className="auth-field">
               Prénom
-              <input
-                autoComplete="given-name"
-                value={firstName}
-                onChange={(event) => setFirstName(event.target.value)}
-                maxLength={60}
-                required
-              />
+              <input autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} maxLength={60} required />
             </label>
             <label className="auth-field">
               Nom de famille
-              <input
-                autoComplete="family-name"
-                value={lastName}
-                onChange={(event) => setLastName(event.target.value)}
-                maxLength={80}
-                required
-              />
+              <input autoComplete="family-name" value={lastName} onChange={(event) => setLastName(event.target.value)} maxLength={80} required />
             </label>
           </>
         )}
         <label className="auth-field">
           Adresse e-mail
-          <input
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            maxLength={254}
-            required
-          />
+          <input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} maxLength={254} required />
         </label>
         <label className="auth-field">
-          Mot de passe
-          <input
-            type="password"
-            autoComplete={mode === "login" ? "current-password" : "new-password"}
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            minLength={mode === "signup" ? 10 : undefined}
-            required
-          />
+          {mode === "signup" ? "Mot de passe principal (1er code)" : "Mot de passe"}
+          <input type="password" autoComplete={mode === "login" ? "current-password" : "new-password"} value={password} onChange={(event) => setPassword(event.target.value)} minLength={mode === "signup" ? 10 : undefined} required />
         </label>
         {mode === "signup" && (
           <>
             <label className="auth-field">
-              Confirmer le mot de passe
-              <input
-                type="password"
-                autoComplete="new-password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                minLength={10}
-                required
-              />
+              Confirmer le mot de passe principal
+              <input type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={10} required />
             </label>
+
+            <div className="recovery-signup-block">
+              <h3>Vos deux codes de récupération</h3>
+              <p>Conservez-les séparément. Le deuxième code remplace le premier si vous l'oubliez. Le code final remplace le deuxième si vous l'oubliez.</p>
+              <label className="auth-field">
+                Mot de passe de récupération (2e code)
+                <input type="password" autoComplete="new-password" value={recoveryPassword} onChange={(event) => setRecoveryPassword(event.target.value)} minLength={10} required />
+              </label>
+              <label className="auth-field">
+                Confirmer le 2e code
+                <input type="password" autoComplete="new-password" value={confirmRecoveryPassword} onChange={(event) => setConfirmRecoveryPassword(event.target.value)} minLength={10} required />
+              </label>
+              <label className="auth-field">
+                Code de récupération final (3e code)
+                <input type="password" autoComplete="new-password" value={finalCode} onChange={(event) => setFinalCode(event.target.value)} minLength={12} required />
+              </label>
+              <label className="auth-field">
+                Confirmer le code final
+                <input type="password" autoComplete="new-password" value={confirmFinalCode} onChange={(event) => setConfirmFinalCode(event.target.value)} minLength={12} required />
+              </label>
+              <p className="recovery-warning">Si vous perdez les trois codes, le compte et ses données ne pourront plus être récupérés. MEMOVYA ne conserve pas les codes en clair.</p>
+            </div>
+
             <label className="auth-field">
               Pourquoi souhaitez-vous utiliser MEMOVYA ? <span>(facultatif)</span>
-              <textarea
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                maxLength={500}
-                rows={3}
-                placeholder="Présentez brièvement votre besoin…"
-              />
+              <textarea value={description} onChange={(event) => setDescription(event.target.value)} maxLength={500} rows={3} placeholder="Présentez brièvement votre besoin…" />
             </label>
           </>
         )}
@@ -205,12 +217,7 @@ export default function AuthForm({ mode }: Props) {
         </button>
       </form>
       <div className="auth-divider">OU</div>
-      <button
-        className="auth-google"
-        type="button"
-        onClick={handleGoogle}
-        disabled={busy || googleBusy}
-      >
+      <button className="auth-google" type="button" onClick={handleGoogle} disabled={busy || googleBusy}>
         <span aria-hidden="true">G</span>
         {googleBusy ? "Redirection vers Google…" : "Continuer avec Google"}
       </button>

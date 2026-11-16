@@ -21,7 +21,6 @@ export default function LoginPage() {
           <Link href="/signup">Créer un compte</Link>
           <span aria-label="Réinitialisation bientôt disponible" style={{color:"#8A95A7"}}>Mot de passe oublié ? (bientôt)</span>
         </div>
-        <p className="auth-note">Vos fichiers personnels ne seront activés qu'après la mise en place et les tests des protections de stockage.</p>
       </section>
     </main>
   );

@@ -51,5 +51,6 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(new URL("/dashboard", requestUrl.origin));
+  const recoveryConfigured = user?.app_metadata?.memovya_recovery_configured === true;
+  return NextResponse.redirect(new URL(recoveryConfigured ? "/dashboard" : "/setup-recovery", requestUrl.origin));
 }

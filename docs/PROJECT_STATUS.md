@@ -40,13 +40,12 @@ Last updated: 2026-11-16
 - Framework: Next.js
 - Node runtime: 24.x
 - Function region: cdg1 (Paris)
-- Preview deployments are protected by Vercel authentication; production deployments are not protected by Vercel SSO.
-- Initial deployment created from a GitHub source snapshot: deployment ID dpl_FijS5hyk8FDbJGnvLtFneMNCynk6. Last observed state: BUILDING (npm install had started; final build result not yet verified).
-- Temporary deployment URL: https://memovya-2sqit4ya8-jemoresjemor9-6990.vercel.app
-- Vercel assigned alias: memovya-jemoresjemor9-6990.vercel.app.
-- Attempt to reserve memovya.vercel.app failed: Vercel reports that this domain is already assigned to another project. Do not claim it is available; user must either have the current owner release it or approve an alternative domain.
-- Attempt to create Git-linked project failed because the Vercel GitHub App integration is not installed/authorized for the GitHub account/repository.
-- User action required: install/authorize Vercel's GitHub App for the GitHub account and grant access to repository jemoresjemor9-collab/MEMOVYA. Then link the repository to the existing Vercel project memovya. Do not create a second project.
+- Preview deployments are protected by Vercel SSO; production deployment is not protected by SSO.
+- GitHub integration is now verified as linked: repository `jemoresjemor9-collab/MEMOVYA` on GitHub, project `memovya` on Vercel (verified through Vercel Git deployment context).
+- First production deployment from a source snapshot: deployment ID `dpl_FijS5hyk8FDbJGnvLtFneMNCynk6`; state `READY`; Next.js compilation and TypeScript checks succeeded.
+- Production aliases now include `https://memovya.vercel.app` and `https://memovya-jemoresjemor9-6990.vercel.app`.
+- Temporary deployment URL: https://memovya-2sqit4ya8-jemoresjemor9-6990.vercel.app.
+- Build output reported 7 moderate npm audit vulnerabilities and an ESLint deprecation warning. These have not yet been investigated or fixed; do not run blanket `npm audit fix` without reviewing impact.
 
 ## Source files committed
 
@@ -73,9 +72,8 @@ Verified:
 - Vercel project settings updated to Node 24.x, Paris functions region, preview-only SSO protection.
 
 Not yet verified:
-- No local install, lint or production build has run.
-- No Vercel deployment exists.
-- GitHub auto-deploy connection is not active.
+- No local install or separate ESLint run has been performed.
+- Automatic deployment on a new GitHub push has not yet been tested.
 - Supabase Auth is not configured or tested.
 - Google OAuth is not configured.
 - No database schema or RLS policies exist.
@@ -84,14 +82,13 @@ Not yet verified:
 
 ## Immediate next actions
 
-1. User installs/authorizes Vercel GitHub App for the GitHub account and repository MEMOVYA.
-2. Link the existing GitHub repository to the existing Vercel project memovya. Do not create another project.
-3. Inspect and resolve the currently building deployment; verify the UI before any public launch.
-4. Trigger a Git-linked preview deployment and inspect build logs; fix any build errors before moving on.
-4. Verify Vercel environment variables are present in production, preview and development.
-5. Design and review the initial database schema before applying migrations.
-6. Configure Supabase Auth (email/password, verification, password reset, session management); plan Google OAuth after user creates OAuth credentials in Google Cloud.
-7. Create private storage bucket and ownership policies only after schema/policy review.
+1. Verify a new GitHub push triggers an automatic Vercel deployment.
+2. Investigate the 7 moderate npm audit advisories and ESLint deprecation warning; update dependencies deliberately and pin them with a lockfile.
+3. Review current Supabase Auth documentation and implement cookie-based SSR sessions with @supabase/ssr and PKCE.
+4. Configure email/password registration, email verification, login, logout, password reset and session refresh.
+5. Configure Google OAuth after user supplies Google Cloud OAuth client credentials through the secure dashboard UI (never in chat).
+6. Design and review the initial database schema before applying migrations.
+7. Create private Storage bucket and ownership policies only after schema/policy review.
 8. Implement quota enforcement (2 GB free) with server-side/database safeguards.
 9. Test cross-user isolation, file upload/download, deletion/restore, and backups before allowing real user data.
 

@@ -183,3 +183,37 @@ body { background:radial-gradient(ellipse at 10% 8%,rgba(37,99,235,.30),transpar
 .install-status, .install-help { margin:0; color:#31569B; font-size:11px; line-height:1.5; }
 .install-help { max-width:330px; padding:9px 12px; border-radius:10px; background:#DCE8FF; text-align:right; }
 @media (max-width:520px) { .install-area { bottom:12px; top:auto; right:12px; } .install-button { min-height:39px; padding:0 11px; font-size:12px; } }
+
+/* Signup details */
+.auth-field textarea {
+  width: 100%;
+  min-height: 88px;
+  resize: vertical;
+  padding: 12px 14px;
+  border: 1px solid rgba(37,99,235,.22);
+  border-radius: 12px;
+  outline: none;
+  background: #C9DAFF;
+  color: #173A82;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.auth-field textarea:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.11);
+}
+.auth-field textarea::placeholder { color: #5272B2; }
+.auth-field span { color: #4263A4; font-weight: 500; }
+.auth-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #173A82;
+  background: linear-gradient(110deg,#DCE8FF,#D8D0FF 60%,#C8F1E3);
+  cursor: pointer;
+}
+.auth-google:hover:not(:disabled) { border-color: #2563EB; transform: translateY(-1px); }
+.auth-google:disabled { opacity: .7; cursor: wait; }
+.auth-google span { font-weight: 800; font-size: 17px; }

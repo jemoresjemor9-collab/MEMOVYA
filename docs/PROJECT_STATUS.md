@@ -1,109 +1,64 @@
 # MEMOVYA — Project status and continuity
 
-Last updated: 2026-11-16
+Last updated: 2026-11-16 (homepage signup/login navigation and preview verification)
 
 ## Product decisions
-
-- Working name: MEMOVYA (legal clearance still pending).
+- Working name: MEMOVYA (legal clearance pending).
 - Slogan: "Votre espace numérique. Vos souvenirs. Votre avenir."
-- Brand colors: blue #2563EB, green #10B981, violet #885CF6, light #F8FAFC.
-- Brand style: elegant, premium, professional, simple and intuitive.
-- Free plan target: 2 GB. The limit must be enforced server-side and in the storage authorization flow, never only in the UI.
-- Target: responsive web application for desktop, tablet and mobile.
-- Core purpose: private storage and retrieval of personal and professional files across devices.
+- Brand palette: blue #2563EB, green #10B981, violet #885CF6. No white panels or page backgrounds; use palette tints/shades.
+- Free plan target: 2 GB, enforced server-side and in storage authorization.
+- Responsive private cloud storage for individuals and organizations.
+- Signup must be immediate: first name, last name, email, password, password confirmation, optional purpose/description. No email verification. Successful signup must establish a session and redirect to dashboard.
+- Login on any device uses the same email/password and must retrieve cloud-synced data.
+- Google signup/login must prompt account selection, then create/sign in to the Supabase Auth user and retain Google profile metadata. Password reset is deferred until core features are complete.
+- Homepage must show two separate, obvious actions: Se connecter and S'inscrire.
 
-## Infrastructure verified
+## Infrastructure
+- GitHub repository: https://github.com/jemoresjemor9-collab/MEMOVYA
+- Active feature branch: feature/auth-email-password. Do not merge to main without explicit approval.
+- Supabase project ref: xccrhqtojghwprcsokcp; region eu-west-3; status previously ACTIVE_HEALTHY.
+- Supabase project URL: https://xccrhqtojghwprcsokcp.supabase.co
+- Vercel project: memovya; ID prj_lHNd8l3KOv3ilcNkqI7G4CxkJAh0.
+- Preview deployments require Vercel SSO. Production alias is not updated by feature-branch commits.
+- Vercel env vars NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are configured for Production, Preview and Development. Never expose service-role/secret keys.
 
-### GitHub
-- Repository: https://github.com/jemoresjemor9-collab/MEMOVYA
-- Default branch: main
-- Repository was empty at first inspection; initial source files have now been committed.
-- Latest bootstrap commit: see repository history (latest README/status commits).
-- Do not overwrite existing work. Inspect the current main branch before every change.
+## Current implementation
+- Email signup now collects first name, last name, email, password, confirmation and optional description. The values are saved to Supabase Auth user metadata.
+- Signup checks password confirmation and minimum 10 characters, calls Supabase signUp, and only proceeds if Supabase returns an active session. This is the expected result when Confirm email is disabled.
+- Email/password login calls signInWithPassword and redirects to the dashboard.
+- Google OAuth browser initiation now calls signInWithOAuth(provider: google), explicitly requests account selection, and redirects to /auth/callback.
+- Added Next.js callback route to exchange the PKCE code for a session, then redirect to dashboard.
+- Google OAuth cannot complete until the Google provider is enabled and Client ID/Client Secret are configured in Supabase Auth, and redirect URLs are allow-listed. Credentials must be entered directly in Google Cloud/Supabase dashboards, never shared in chat.
+- User metadata is stored in Supabase Auth; no separate profile table currently exists.
+- Dashboard is still a starter page. File/folder storage, cross-device file restoration, 2 GB quota and backups are not implemented yet.
+- Password reset remains deferred.
+- PWA is present but installation behavior remains device/browser dependent and unverified.
 
-### Supabase
-- Project name: MEMOVYA
-- Project ref: xccrhqtojghwprcsokcp
-- Region: eu-west-3 (Paris)
-- Status at last check: ACTIVE_HEALTHY
-- Database engine: PostgreSQL 17
-- Public project URL: https://xccrhqtojghwprcsokcp.supabase.co
-- Public publishable key is configured in Vercel as NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.
-- NEXT_PUBLIC_SUPABASE_URL is configured in Vercel.
-- No public schema tables existed at initial inspection.
-- No user storage bucket or RLS policy has been created yet.
-- Never expose or store a service-role/secret key in browser code or GitHub.
+## Verified vs pending
+- Latest preview deployment: READY at https://memovya-61trtyhnx-jemoresjemor9-6990.vercel.app (deployment dpl_kXRvN57VfkjLC9P6Z8Lvi8BXsXCv; commit 3484e64c997c20deb5cb967cd13f6916697f484b; branch feature/auth-email-password). Build, TypeScript, static page generation and deployment output completed successfully.
+- Homepage now exposes distinct Se connecter and S'inscrire actions; the signup action goes to /signup and login goes to /login.
+- The preview deployment is not production. The latest production deployment still points to main at commit a04bbeee2d465bd530efb10f4508254ce8009d8b. Do not merge or promote without explicit user approval.
+- No live signup/login test has been completed because no test account has been created.
+- User reports Supabase Confirm email is disabled; the current dashboard setting has not been independently read back. A real signup test must confirm that signUp returns a session immediately.
+- Google OAuth has not been configured or end-to-end tested.
+- No database schema, RLS policies, private storage bucket, file uploads/downloads, quota enforcement, or backup/restore are implemented.
 
-### Vercel
-- Project name: memovya (lowercase slug to support memovya.vercel.app).
-- Project ID: prj_lHNd8l3KOv3ilcNkqI7G4CxkJAh0
-- Framework: Next.js
-- Node runtime: 24.x
-- Function region: cdg1 (Paris)
-- Preview deployments are protected by Vercel SSO; production deployment is not protected by SSO.
-- GitHub integration is now verified as linked: repository `jemoresjemor9-collab/MEMOVYA` on GitHub, project `memovya` on Vercel (verified through Vercel Git deployment context).
-- First production deployment from a source snapshot: deployment ID `dpl_FijS5hyk8FDbJGnvLtFneMNCynk6`; state `READY`; Next.js compilation and TypeScript checks succeeded.
-- Production aliases now include `https://memovya.vercel.app` and `https://memovya-jemoresjemor9-6990.vercel.app`.
-- Temporary deployment URL: https://memovya-2sqit4ya8-jemoresjemor9-6990.vercel.app.
-- Build output reported 7 moderate npm audit vulnerabilities and an ESLint deprecation warning. These have not yet been investigated or fixed; do not run blanket `npm audit fix` without reviewing impact.
+## Next actions
+1. Verify the latest preview deployment reaches READY and inspect build/runtime logs.
+2. User tests email signup: create an account, confirm immediate dashboard redirect, then sign in from a second device/browser.
+3. If signup returns no session, verify Supabase Auth Confirm email is disabled and resolve that setting before proceeding.
+4. Configure Google OAuth in Google Cloud and Supabase; allow-list the production and preview callback URLs, then test account selection and session creation.
+5. Implement and secure profiles/storage schema, private Storage bucket, file/folder operations, quota enforcement, and restore.
+6. Implement deletion/trash, sharing, audit, and admin controls only after the core storage foundation is secure.
 
-## Source files committed
+## Security and data safety
+- No public bucket for private user files.
+- Enable RLS on every exposed public table and define ownership-aware policies.
+- Never trust client-supplied user IDs, object paths, MIME types, file sizes or quota values.
+- Never expose service-role/secret keys in browser code, NEXT_PUBLIC variables, logs or Git.
+- Use short-lived signed URLs for private downloads where appropriate.
+- Database backups and object-storage backups are separate; both restore paths need tests.
+- Do not claim zero data-loss risk or production readiness without end-to-end tests and restore drills.
 
-- package.json — Next.js 16.4.6, React 19.3.1, TypeScript, ESLint.
-- next.config.ts
-- tsconfig.json
-- eslint.config.mjs
-- .gitignore
-- .env.example
-- app/layout.tsx
-- app/globals.css
-- app/page.tsx — initial branded landing page and illustrative storage dashboard preview.
-- app/login/page.tsx — visual sign-in preparation page; fields intentionally disabled until real authentication is implemented.
-- README.md — setup and safety rules.
-
-## Verified vs not verified
-
-Verified:
-- GitHub repository exists and source files were committed successfully.
-- Supabase project creation succeeded and project reports ACTIVE_HEALTHY.
-- Supabase public schema is empty at initial inspection.
-- Vercel project creation succeeded.
-- Supabase URL and publishable key were added to Vercel for production, preview and development.
-- Vercel project settings updated to Node 24.x, Paris functions region, preview-only SSO protection.
-
-Not yet verified:
-- No local install or separate ESLint run has been performed.
-- Automatic deployment on a new GitHub push has not yet been tested.
-- Supabase Auth is not configured or tested.
-- Google OAuth is not configured.
-- No database schema or RLS policies exist.
-- No private Storage bucket or Storage policies exist.
-- No upload/download, quota enforcement, backup, or restore feature exists.
-
-## Immediate next actions
-
-1. Verify a new GitHub push triggers an automatic Vercel deployment.
-2. Investigate the 7 moderate npm audit advisories and ESLint deprecation warning; update dependencies deliberately and pin them with a lockfile.
-3. Review current Supabase Auth documentation and implement cookie-based SSR sessions with @supabase/ssr and PKCE.
-4. Configure email/password registration, email verification, login, logout, password reset and session refresh.
-5. Configure Google OAuth after user supplies Google Cloud OAuth client credentials through the secure dashboard UI (never in chat).
-6. Design and review the initial database schema before applying migrations.
-7. Create private Storage bucket and ownership policies only after schema/policy review.
-8. Implement quota enforcement (2 GB free) with server-side/database safeguards.
-9. Test cross-user isolation, file upload/download, deletion/restore, and backups before allowing real user data.
-
-## Data safety requirements
-
-- Never make a public bucket for private user files.
-- Every exposed public table must have RLS enabled and policies matching its access model.
-- Storage RLS is separate from application-table RLS.
-- Do not trust client-supplied user IDs, object paths, file sizes, MIME types, or quota values.
-- Do not expose Supabase service-role/secret keys in browser code, NEXT_PUBLIC variables, logs, or Git.
-- Use authenticated storage operations and short-lived signed URLs where appropriate.
-- Deletion should be recoverable through a trash/retention workflow when possible; permanent deletion needs explicit confirmation and clear warning.
-- Database backups and file-object backups are separate; configure and test both restore paths.
-- No claim of "zero bugs" or guaranteed never-loss. Release only after tests and restore drills.
-
-## Continuity rule
-
-At the start of every new conversation, read this file and inspect the current GitHub repository, Supabase project, and Vercel project state. Update this file at the end of each work session with verified changes and the exact next task.
+## Continuity
+Before every work session, inspect the active branch and project states. Preserve existing features. Update this document with verified changes and exact next steps.

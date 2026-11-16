@@ -87,12 +87,14 @@ export default function FileManager() {
       if (!reservation?.file_id || !reservation?.object_path) {
         throw new Error("La réservation de stockage n'a pas retourné de chemin valide.");
       }
-      reservationId = reservation.file_id;
-      objectPath = reservation.object_path;
+      const reservedFileId = String(reservation.file_id);
+      const reservedObjectPath = String(reservation.object_path);
+      reservationId = reservedFileId;
+      objectPath = reservedObjectPath;
 
       const { error: uploadError } = await supabase.storage
         .from("memovya-private")
-        .upload(objectPath, file, {
+        .upload(reservedObjectPath, file, {
           cacheControl: "3600",
           contentType: file.type || "application/octet-stream",
           upsert: false,
@@ -101,7 +103,7 @@ export default function FileManager() {
       objectUploaded = true;
 
       const { error: completeError } = await supabase.rpc("memovya_complete_upload", {
-        p_file_id: reservationId,
+        p_file_id: reservedFileId,
       });
       if (completeError) throw completeError;
 

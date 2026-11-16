@@ -290,3 +290,52 @@ body { background:radial-gradient(ellipse at 10% 8%,rgba(37,99,235,.30),transpar
 .recovery-switch button { min-height:44px; padding:8px 10px; border:1px solid rgba(37,99,235,.2); border-radius:11px; color:#31569B; background:#C9DAFF; font-size:11px; font-weight:750; cursor:pointer; }
 .recovery-switch button.active { border-color:#885CF6; color:#EAF0FF; background:linear-gradient(110deg,#2563EB,#885CF6); }
 @media(max-width:480px) { .recovery-switch { grid-template-columns:1fr; } }
+
+
+/* Accessible show / hide control for every password and recovery-code field */
+.password-input-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.password-input-wrap > input {
+  width: 100%;
+  padding-right: 50px !important;
+}
+.password-visibility-toggle {
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border: 1px solid rgba(37,99,235,.2);
+  border-radius: 9px;
+  color: #31569B;
+  background: linear-gradient(135deg,rgba(201,218,255,.95),rgba(220,210,255,.9));
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.password-visibility-toggle:hover {
+  color: #fff;
+  border-color: #885CF6;
+  background: linear-gradient(120deg,#2563EB,#885CF6);
+}
+.password-visibility-toggle:focus-visible {
+  outline: 3px solid rgba(136,92,246,.35);
+  outline-offset: 2px;
+}
+.password-visibility-toggle svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

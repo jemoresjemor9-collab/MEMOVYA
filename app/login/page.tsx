@@ -19,7 +19,6 @@ export default function LoginPage() {
         <AuthForm mode="login" />
         <div className="auth-links">
           <Link href="/signup">Créer un compte</Link>
-          <span aria-label="Réinitialisation bientôt disponible" style={{color:"#4263A4"}}>Mot de passe oublié ? (bientôt)</span>
         </div>
       </section>
     </main>

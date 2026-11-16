@@ -1,6 +1,6 @@
 # MEMOVYA — Project status and continuity
 
-Last updated: 2026-11-16 (authentication/PWA changes integrated into main and production deployment verified)
+Last updated: 2026-11-16 (private storage foundation and dashboard upload flow deployed; 3-level recovery design specified)
 
 ## Product decisions
 - Working name: MEMOVYA (legal clearance pending).
@@ -10,7 +10,7 @@ Last updated: 2026-11-16 (authentication/PWA changes integrated into main and pr
 - Responsive private cloud storage for individuals and organizations.
 - Signup must be immediate: first name, last name, email, password, password confirmation, optional purpose/description. No email verification. Successful signup must establish a session and redirect to dashboard.
 - Login on any device uses the same email/password and must retrieve cloud-synced data.
-- Google signup/login must prompt account selection, then create/sign in to the Supabase Auth user and retain Google profile metadata. Password reset is deferred until core features are complete.
+- Google signup/login must prompt account selection, then create/sign in to the Supabase Auth user and retain Google profile metadata. Password recovery design: primary password, secondary recovery password, then final recovery code; each level recovers the preceding credential. If all three are lost, recovery is intentionally impossible. This flow is specified but not yet implemented.
 - Homepage must show two separate, obvious actions: Se connecter and S'inscrire.
 
 ## Infrastructure
@@ -43,7 +43,7 @@ Last updated: 2026-11-16 (authentication/PWA changes integrated into main and pr
 - No live signup/login test has been completed because no test account has been created.
 - User reports Supabase Confirm email is disabled; the current dashboard setting has not been independently read back. A real signup test must confirm that signUp returns a session immediately.
 - Google OAuth has not been configured or end-to-end tested.
-- No database schema, RLS policies, private storage bucket, file uploads/downloads, quota enforcement, or backup/restore are implemented.
+- Storage schema, private bucket, owner-scoped Storage RLS, per-user quota reservation and dashboard file operations are deployed. End-to-end upload/download/delete tests with an authenticated test account remain pending.\n- Storage backup/restore and stale pending-upload cleanup are not implemented.\n- Three-level password recovery is not yet implemented; do not claim account recovery is active.
 
 ## Next actions
 1. Perform an end-to-end email signup/login test with a user-approved test account; confirm immediate session creation and dashboard access.

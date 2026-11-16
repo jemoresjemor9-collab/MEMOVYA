@@ -75,15 +75,19 @@ export default function FileManager() {
     let objectUploaded = false;
 
     try {
-      const { data, error: reserveError } = await supabase.rpc("memovya_reserve_upload", {
-        p_file_name: file.name,
-        p_mime_type: file.type || "application/octet-stream",
-        p_size_bytes: file.size,
-        p_folder_path: "/",
+      const { data: reserveData, error: reserveError } = await supabase.functions.invoke("memovya-account-recovery", {
+        body: {
+          action: "storage-reserve",
+          file_name: file.name,
+          mime_type: file.type || "application/octet-stream",
+          size_bytes: file.size,
+          folder_path: "/",
+        },
       });
       if (reserveError) throw reserveError;
+      if (!reserveData?.success) throw new Error(reserveData?.error || "Réservation du stockage impossible.");
 
-      const reservation = Array.isArray(data) ? data[0] : data;
+      const reservation = reserveData.reservation;
       if (!reservation?.file_id || !reservation?.object_path) {
         throw new Error("La réservation de stockage n'a pas retourné de chemin valide.");
       }
@@ -102,10 +106,11 @@ export default function FileManager() {
       if (uploadError) throw uploadError;
       objectUploaded = true;
 
-      const { error: completeError } = await supabase.rpc("memovya_complete_upload", {
-        p_file_id: reservedFileId,
+      const { data: completeData, error: completeError } = await supabase.functions.invoke("memovya-account-recovery", {
+        body: { action: "storage-complete", file_id: reservedFileId },
       });
       if (completeError) throw completeError;
+      if (!completeData?.success) throw new Error(completeData?.error || "Finalisation du fichier impossible.");
 
       setMessage("Fichier enregistré dans votre espace privé.");
       await refresh();
@@ -114,7 +119,9 @@ export default function FileManager() {
         await supabase.storage.from("memovya-private").remove([objectPath]);
       }
       if (reservationId) {
-        await supabase.rpc("memovya_cancel_upload", { p_file_id: reservationId });
+        await supabase.functions.invoke("memovya-account-recovery", {
+          body: { action: "storage-cancel", file_id: reservationId },
+        });
       }
       setError(cause instanceof Error ? cause.message : "L'envoi du fichier a échoué.");
     } finally {

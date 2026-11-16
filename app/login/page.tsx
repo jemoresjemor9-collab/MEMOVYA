@@ -19,6 +19,7 @@ export default function LoginPage() {
         <AuthForm mode="login" />
         <div className="auth-links">
           <Link href="/signup">Créer un compte</Link>
+          <Link href="/recover">Mot de passe oublié ?</Link>
         </div>
       </section>
     </main>

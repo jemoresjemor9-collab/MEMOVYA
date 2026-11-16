@@ -177,3 +177,9 @@ body { background:radial-gradient(ellipse at 10% 8%,rgba(37,99,235,.30),transpar
 .auth-error { background:#E5D9FF; color:#5735A6; border-color:rgba(136,92,246,.5); }
 .preview-foot { background:#C8F1E3; color:#126B50; }
 .auth-submit, .button-primary { color:#EAF0FF; }
+
+.install-area { position:fixed; z-index:1000; top:16px; right:20px; display:flex; flex-direction:column; align-items:flex-end; gap:7px; }
+.install-button { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:42px; padding:0 16px; border:1px solid rgba(37,99,235,.35); border-radius:13px; color:#EAF0FF; background:linear-gradient(110deg,#2563EB,#885CF6 65%,#10B981); font-size:13px; font-weight:800; cursor:pointer; box-shadow:0 8px 18px rgba(37,99,235,.2); }
+.install-status, .install-help { margin:0; color:#31569B; font-size:11px; line-height:1.5; }
+.install-help { max-width:330px; padding:9px 12px; border-radius:10px; background:#DCE8FF; text-align:right; }
+@media (max-width:520px) { .install-area { top:12px; right:12px; } .install-button { min-height:39px; padding:0 11px; font-size:12px; } }

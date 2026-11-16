@@ -176,13 +176,13 @@ export default function AuthForm({ mode }: Props) {
         </label>
         <label className="auth-field">
           {mode === "signup" ? "Mot de passe principal (1er code)" : "Mot de passe"}
-          <input type="password" autoComplete={mode === "login" ? "current-password" : "new-password"} value={password} onChange={(event) => setPassword(event.target.value)} minLength={mode === "signup" ? 10 : undefined} required />
+          <PasswordInput autoComplete={mode === "login" ? "current-password" : "new-password"} value={password} onChange={setPassword} minLength={mode === "signup" ? 10 : undefined} required />
         </label>
         {mode === "signup" && (
           <>
             <label className="auth-field">
               Confirmer le mot de passe principal
-              <input type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={10} required />
+              <PasswordInput autoComplete="new-password" value={confirmPassword} onChange={setConfirmPassword} minLength={10} required />
             </label>
 
             <div className="recovery-signup-block">
@@ -190,19 +190,19 @@ export default function AuthForm({ mode }: Props) {
               <p>Conservez-les séparément. Le deuxième code remplace le premier si vous l'oubliez. Le code final remplace le deuxième si vous l'oubliez.</p>
               <label className="auth-field">
                 Mot de passe de récupération (2e code)
-                <input type="password" autoComplete="new-password" value={recoveryPassword} onChange={(event) => setRecoveryPassword(event.target.value)} minLength={10} required />
+                <PasswordInput autoComplete="new-password" value={recoveryPassword} onChange={setRecoveryPassword} minLength={10} required />
               </label>
               <label className="auth-field">
                 Confirmer le 2e code
-                <input type="password" autoComplete="new-password" value={confirmRecoveryPassword} onChange={(event) => setConfirmRecoveryPassword(event.target.value)} minLength={10} required />
+                <PasswordInput autoComplete="new-password" value={confirmRecoveryPassword} onChange={setConfirmRecoveryPassword} minLength={10} required />
               </label>
               <label className="auth-field">
                 Code de récupération final (3e code)
-                <input type="password" autoComplete="new-password" value={finalCode} onChange={(event) => setFinalCode(event.target.value)} minLength={12} required />
+                <PasswordInput autoComplete="new-password" value={finalCode} onChange={setFinalCode} minLength={12} required />
               </label>
               <label className="auth-field">
                 Confirmer le code final
-                <input type="password" autoComplete="new-password" value={confirmFinalCode} onChange={(event) => setConfirmFinalCode(event.target.value)} minLength={12} required />
+                <PasswordInput autoComplete="new-password" value={confirmFinalCode} onChange={setConfirmFinalCode} minLength={12} required />
               </label>
               <p className="recovery-warning">Si vous perdez les trois codes, le compte et ses données ne pourront plus être récupérés. MEMOVYA ne conserve pas les codes en clair.</p>
             </div>

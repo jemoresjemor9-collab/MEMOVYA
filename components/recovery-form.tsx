@@ -1,5 +1,6 @@
 "use client";
 
+import PasswordInput from "@/components/password-input";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -76,22 +77,22 @@ export default function RecoveryForm() {
         {mode === "primary" ? (
           <label className="auth-field">
             Votre mot de passe de récupération (2e code)
-            <input type="password" autoComplete="off" value={recoveryPassword} onChange={(event) => setRecoveryPassword(event.target.value)} minLength={10} required />
+            <PasswordInput autoComplete="off" value={recoveryPassword} onChange={setRecoveryPassword} minLength={10} required />
           </label>
         ) : (
           <label className="auth-field">
             Votre code de récupération final (3e code)
-            <input type="password" autoComplete="off" value={finalCode} onChange={(event) => setFinalCode(event.target.value)} minLength={12} required />
+            <PasswordInput autoComplete="off" value={finalCode} onChange={setFinalCode} minLength={12} required />
           </label>
         )}
 
         <label className="auth-field">
           {mode === "primary" ? "Nouveau mot de passe principal" : "Nouveau mot de passe de récupération"}
-          <input type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={10} required />
+          <PasswordInput autoComplete="new-password" value={newPassword} onChange={setNewPassword} minLength={10} required />
         </label>
         <label className="auth-field">
           Confirmer le nouveau mot de passe
-          <input type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={10} required />
+          <PasswordInput autoComplete="new-password" value={confirmPassword} onChange={setConfirmPassword} minLength={10} required />
         </label>
         <button className="auth-submit" type="submit" disabled={busy}>
           {busy ? "Vérification en cours…" : mode === "primary" ? "Récupérer mon compte" : "Remplacer le mot de passe de récupération"}

@@ -1,5 +1,6 @@
 "use client";
 
+import PasswordInput from "@/components/password-input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -47,19 +48,19 @@ export default function RecoverySetup() {
       {error && <p className="auth-message auth-error" role="alert">{error}</p>}
       <label className="auth-field">
         Mot de passe de récupération (2e code)
-        <input type="password" autoComplete="new-password" value={recoveryPassword} onChange={(event) => setRecoveryPassword(event.target.value)} minLength={10} required />
+        <PasswordInput autoComplete="new-password" value={recoveryPassword} onChange={setRecoveryPassword} minLength={10} required />
       </label>
       <label className="auth-field">
         Confirmer le 2e code
-        <input type="password" autoComplete="new-password" value={confirmRecoveryPassword} onChange={(event) => setConfirmRecoveryPassword(event.target.value)} minLength={10} required />
+        <PasswordInput autoComplete="new-password" value={confirmRecoveryPassword} onChange={setConfirmRecoveryPassword} minLength={10} required />
       </label>
       <label className="auth-field">
         Code de récupération final (3e code)
-        <input type="password" autoComplete="new-password" value={finalCode} onChange={(event) => setFinalCode(event.target.value)} minLength={12} required />
+        <PasswordInput autoComplete="new-password" value={finalCode} onChange={setFinalCode} minLength={12} required />
       </label>
       <label className="auth-field">
         Confirmer le code final
-        <input type="password" autoComplete="new-password" value={confirmFinalCode} onChange={(event) => setConfirmFinalCode(event.target.value)} minLength={12} required />
+        <PasswordInput autoComplete="new-password" value={confirmFinalCode} onChange={setConfirmFinalCode} minLength={12} required />
       </label>
       <p className="recovery-warning">Le 2e code permet de remplacer le mot de passe principal. Le 3e code permet de remplacer le 2e. Si vous perdez les trois, le compte ne pourra plus être récupéré.</p>
       <button className="auth-submit" type="submit" disabled={busy}>{busy ? "Enregistrement…" : "Enregistrer mes codes et continuer"}</button>

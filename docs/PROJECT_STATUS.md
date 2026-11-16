@@ -1,6 +1,6 @@
 # MEMOVYA — Project status and continuity
 
-Last updated: 2026-11-16 (signup and Google OAuth flow implementation)
+Last updated: 2026-11-16 (homepage signup/login navigation and preview verification)
 
 ## Product decisions
 - Working name: MEMOVYA (legal clearance pending).
@@ -11,6 +11,7 @@ Last updated: 2026-11-16 (signup and Google OAuth flow implementation)
 - Signup must be immediate: first name, last name, email, password, password confirmation, optional purpose/description. No email verification. Successful signup must establish a session and redirect to dashboard.
 - Login on any device uses the same email/password and must retrieve cloud-synced data.
 - Google signup/login must prompt account selection, then create/sign in to the Supabase Auth user and retain Google profile metadata. Password reset is deferred until core features are complete.
+- Homepage must show two separate, obvious actions: Se connecter and S'inscrire.
 
 ## Infrastructure
 - GitHub repository: https://github.com/jemoresjemor9-collab/MEMOVYA
@@ -34,8 +35,9 @@ Last updated: 2026-11-16 (signup and Google OAuth flow implementation)
 - PWA is present but installation behavior remains device/browser dependent and unverified.
 
 ## Verified vs pending
-- Previous preview deployment for branch feature/auth-email-password reached Vercel READY, but that was before the latest signup/OAuth code changes.
-- The latest signup/OAuth code has been committed to the feature branch; its new Vercel build must be checked before calling it deployed.
+- Latest preview deployment: READY at https://memovya-61trtyhnx-jemoresjemor9-6990.vercel.app (deployment dpl_kXRvN57VfkjLC9P6Z8Lvi8BXsXCv; commit 3484e64c997c20deb5cb967cd13f6916697f484b; branch feature/auth-email-password). Build, TypeScript, static page generation and deployment output completed successfully.
+- Homepage now exposes distinct Se connecter and S'inscrire actions; the signup action goes to /signup and login goes to /login.
+- The preview deployment is not production. The latest production deployment still points to main at commit a04bbeee2d465bd530efb10f4508254ce8009d8b. Do not merge or promote without explicit user approval.
 - No live signup/login test has been completed because no test account has been created.
 - User reports Supabase Confirm email is disabled; the current dashboard setting has not been independently read back. A real signup test must confirm that signUp returns a session immediately.
 - Google OAuth has not been configured or end-to-end tested.

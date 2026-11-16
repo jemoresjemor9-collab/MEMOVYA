@@ -14,14 +14,14 @@ export default function SignupPage() {
         <div className="auth-intro">
           <p className="auth-kicker">BIENVENUE CHEZ MEMOVYA</p>
           <h1 className="auth-title">Créez votre espace.</h1>
-          <p className="auth-description">Un compte personnel pour organiser votre univers numérique.</p>
+          <p className="auth-description">Un compte personnel pour conserver et retrouver vos données sur vos appareils.</p>
         </div>
         <AuthForm mode="signup" />
         <div className="auth-links">
           <Link href="/login">J'ai déjà un compte</Link>
           <Link href="/">Retour à l'accueil</Link>
         </div>
-        <p className="auth-note">La confirmation par e-mail est désactivée pour le moment. Créez votre compte avec votre adresse et un mot de passe personnel.</p>
+        <p className="auth-note">Inscription directe : aucune confirmation par e-mail ne doit être demandée. Après création, vous êtes connecté automatiquement.</p>
       </section>
     </main>
   );

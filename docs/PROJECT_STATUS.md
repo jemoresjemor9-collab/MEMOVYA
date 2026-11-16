@@ -1,6 +1,6 @@
 # MEMOVYA — Project status and continuity
 
-Last updated: 2026-11-16 (homepage signup/login navigation and preview verification)
+Last updated: 2026-11-16 (authentication/PWA changes integrated into main and production deployment verified)
 
 ## Product decisions
 - Working name: MEMOVYA (legal clearance pending).
@@ -15,11 +15,11 @@ Last updated: 2026-11-16 (homepage signup/login navigation and preview verificat
 
 ## Infrastructure
 - GitHub repository: https://github.com/jemoresjemor9-collab/MEMOVYA
-- Active feature branch: feature/auth-email-password. Do not merge to main without explicit approval.
+- Development branch: feature/auth-email-password. Its 52 commits were integrated into main through PR #1 (merged). Main now contains the authentication/PWA work.
 - Supabase project ref: xccrhqtojghwprcsokcp; region eu-west-3; status previously ACTIVE_HEALTHY.
 - Supabase project URL: https://xccrhqtojghwprcsokcp.supabase.co
 - Vercel project: memovya; ID prj_lHNd8l3KOv3ilcNkqI7G4CxkJAh0.
-- Preview deployments require Vercel SSO. Production alias is not updated by feature-branch commits.
+- Preview deployments require Vercel SSO. The official production alias is https://memovya.vercel.app.
 - Vercel env vars NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are configured for Production, Preview and Development. Never expose service-role/secret keys.
 
 ## Current implementation
@@ -35,21 +35,22 @@ Last updated: 2026-11-16 (homepage signup/login navigation and preview verificat
 - PWA is present but installation behavior remains device/browser dependent and unverified.
 
 ## Verified vs pending
-- Latest preview deployment: READY at https://memovya-61trtyhnx-jemoresjemor9-6990.vercel.app (deployment dpl_kXRvN57VfkjLC9P6Z8Lvi8BXsXCv; commit 3484e64c997c20deb5cb967cd13f6916697f484b; branch feature/auth-email-password). Build, TypeScript, static page generation and deployment output completed successfully.
-- Homepage now exposes distinct Se connecter and S'inscrire actions; the signup action goes to /signup and login goes to /login.
-- The preview deployment is not production. The latest production deployment still points to main at commit a04bbeee2d465bd530efb10f4508254ce8009d8b. Do not merge or promote without explicit user approval.
+- PR #1 was merged into main successfully. Merge commit: d5d8268148823ffb42de4d88bd584952f7ab6241.
+- Production deployment for the existing Vercel project memovya: deployment dpl_j3cTPR6Tb7r44ssHq4SPa7MvxkdR, commit d5d8268148823ffb42de4d88bd584952f7ab6241, state READY. Official alias memovya.vercel.app is attached to this deployment.
+- Build verified: Next.js compiled successfully, TypeScript completed, static pages generated 8/8, routes /, /auth/callback, /auth/signout, /dashboard, /login and /signup generated; Vercel deployment reached READY.
+- Runtime error query for the last hour returned no runtime errors.
+- Homepage has distinct Se connecter and S'inscrire actions; signup routes to /signup and login to /login.
 - No live signup/login test has been completed because no test account has been created.
 - User reports Supabase Confirm email is disabled; the current dashboard setting has not been independently read back. A real signup test must confirm that signUp returns a session immediately.
 - Google OAuth has not been configured or end-to-end tested.
 - No database schema, RLS policies, private storage bucket, file uploads/downloads, quota enforcement, or backup/restore are implemented.
 
 ## Next actions
-1. Verify the latest preview deployment reaches READY and inspect build/runtime logs.
-2. User tests email signup: create an account, confirm immediate dashboard redirect, then sign in from a second device/browser.
-3. If signup returns no session, verify Supabase Auth Confirm email is disabled and resolve that setting before proceeding.
-4. Configure Google OAuth in Google Cloud and Supabase; allow-list the production and preview callback URLs, then test account selection and session creation.
-5. Implement and secure profiles/storage schema, private Storage bucket, file/folder operations, quota enforcement, and restore.
-6. Implement deletion/trash, sharing, audit, and admin controls only after the core storage foundation is secure.
+1. Perform an end-to-end email signup/login test with a user-approved test account; confirm immediate session creation and dashboard access.
+2. Configure Google OAuth in Google Cloud and Supabase; allow-list https://memovya.vercel.app/auth/callback, then test account selection and session creation.
+3. Implement and secure profiles/storage schema, private Storage bucket, file/folder operations, server-side 2 GB quota enforcement, and restore.
+4. Test cross-user isolation, upload/download, deletion/restore and backup recovery before storing real user files.
+5. Implement sharing, trash, audit and admin controls after the core storage foundation is secure.
 
 ## Security and data safety
 - No public bucket for private user files.

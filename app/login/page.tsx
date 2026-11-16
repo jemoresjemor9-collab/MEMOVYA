@@ -14,7 +14,7 @@ export default function LoginPage() {
         <div className="auth-intro">
           <p className="auth-kicker">VOTRE ESPACE PERSONNEL</p>
           <h1 className="auth-title">Heureux de vous retrouver.</h1>
-          <p className="auth-description">Connectez-vous pour retrouver votre espace numérique.</p>
+          <p className="auth-description">Connectez-vous avec l'adresse e-mail et le mot de passe de votre compte pour retrouver votre espace.</p>
         </div>
         <AuthForm mode="login" />
         <div className="auth-links">

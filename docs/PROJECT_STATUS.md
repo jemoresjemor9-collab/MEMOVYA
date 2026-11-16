@@ -90,25 +90,23 @@ Not yet verified:
 - Auth source build verified READY on Vercel deployment `dpl_3TuisB1YCew6rdnj8VARS1PjHBXL` (commit `10e6b402bb60ccd026a432fb33b4023330a00eaf`): Next.js compilation, TypeScript, static generation and route analysis completed successfully.
 - No package lockfile has yet been generated/committed; dependencies in package.json are pinned to exact Supabase versions pending lockfile generation.
 - Supabase Auth code is committed on branch `feature/auth-email-password`; live sign-up/sign-in has not yet been tested.
-- Supabase Auth setting `Email confirmations` has NOT been disabled yet. It must be turned off in the Supabase dashboard to allow registration without email verification, as requested.
+- User reports that `Confirm email` has been disabled in Supabase. This setting has not been independently read back through the dashboard API; verify with an actual sign-up test.
 - Google OAuth is not configured.
-- PWA files and service worker are added on branch `feature/auth-email-password`; cross-platform installation and iOS home-screen icon behavior still require browser/device testing. SVG icons are supplied; native iOS home-screen PNG icon compatibility has not yet been verified.
+- PWA files and service worker are added on branch `feature/auth-email-password`; Vercel preview build for commit `813646d2e2d21226d93750d5f64f9b8a2bdebc66` reached READY. Cross-platform installation, iOS home-screen icon behavior and offline behavior still require browser/device testing. SVG icons are supplied; native iOS home-screen icon compatibility has not yet been verified.
 - No database schema or RLS policies exist.
 - No private Storage bucket or Storage policies exist.
 - No upload/download, quota enforcement, backup, or restore feature exists.
 
 ## Immediate next actions
 
-1. Verify the latest PWA/brand commit builds successfully on Vercel and test installability on Android/desktop browsers and iOS Safari.
-2. Generate platform-appropriate PNG app icons (192x192, 512x512, and Apple touch icon) if needed after device validation.
-3. Investigate the 7 moderate npm audit advisories and ESLint deprecation warning; update dependencies deliberately and pin them with a lockfile.
-4. Review current Supabase Auth documentation and finish testing cookie-based SSR sessions with @supabase/ssr.
-5. Test email/password registration and login with email confirmation disabled; password reset remains deferred.
-6. Configure Google OAuth after user creates Google Cloud OAuth client credentials and enters them directly in Supabase dashboard (never in chat).
-7. Design and review the initial database schema before applying migrations.
-8. Create private Storage bucket and ownership policies only after schema/policy review.
-9. Implement quota enforcement (2 GB free) with server-side/database safeguards.
-10. Test cross-user isolation, file upload/download, deletion/restore, and backups before allowing real user data.
+1. Test PWA installation and offline fallback on Android/desktop browsers and iOS Safari; provide a native Apple touch PNG icon if device tests require it.
+2. Test email/password registration, login, session refresh and sign-out with email confirmation disabled.
+3. Generate and commit a package lockfile; investigate the 7 moderate npm audit advisories and ESLint deprecation warning.
+4. Configure Google OAuth after user creates Google Cloud OAuth client credentials and enters them directly in Supabase dashboard (never in chat).
+5. Design and review the initial database schema before applying migrations.
+6. Create private Storage bucket and ownership policies only after schema/policy review.
+7. Implement quota enforcement (2 GB free) with server-side/database safeguards.
+8. Build and test file/folder management, sharing, trash/restore, backups and restore drills before allowing real user data.
 
 ## Data safety requirements
 

@@ -1,5 +1,6 @@
 "use client";
 
+import PasswordInput from "@/components/password-input";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";

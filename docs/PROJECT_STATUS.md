@@ -1,6 +1,6 @@
 # MEMOVYA — Project status and continuity
 
-Last updated: 2026-11-16
+Last updated: 2026-11-16 (auth/PWA interface corrections)
 
 ## Product decisions
 
@@ -92,7 +92,7 @@ Not yet verified:
 - Supabase Auth code is committed on branch `feature/auth-email-password`; live sign-up/sign-in has not yet been tested.
 - User reports that `Confirm email` has been disabled in Supabase. This setting has not been independently read back through the dashboard API; verify with an actual sign-up test.
 - Google OAuth is not configured.
-- PWA files and service worker are added on branch `feature/auth-email-password`; Vercel preview build for commit `813646d2e2d21226d93750d5f64f9b8a2bdebc66` reached READY. Cross-platform installation, iOS home-screen icon behavior and offline behavior still require browser/device testing. SVG icons are supplied; native iOS home-screen icon compatibility has not yet been verified.
+- PWA files and service worker are added on branch `feature/auth-email-password`. A visible fixed-position “Installer MEMOVYA” control has now been added; it uses the browser install prompt when available and provides Safari/iOS or browser-menu guidance otherwise. Cross-platform installation, iOS home-screen icon behavior and offline behavior still require browser/device testing. SVG icons are supplied; native iOS home-screen icon compatibility has not yet been verified.
 - No database schema or RLS policies exist.
 - No private Storage bucket or Storage policies exist.
 - No upload/download, quota enforcement, backup, or restore feature exists.
@@ -100,7 +100,7 @@ Not yet verified:
 ## Immediate next actions
 
 1. Test PWA installation and offline fallback on Android/desktop browsers and iOS Safari; provide a native Apple touch PNG icon if device tests require it.
-2. Test email/password registration, login, session refresh and sign-out with email confirmation disabled.
+2. Test email/password registration, login, session refresh and sign-out with email confirmation disabled. The user reports that Confirm email is disabled; the live setting has not yet been independently verified, and no test account has been created.
 3. Generate and commit a package lockfile; investigate the 7 moderate npm audit advisories and ESLint deprecation warning.
 4. Configure Google OAuth after user creates Google Cloud OAuth client credentials and enters them directly in Supabase dashboard (never in chat).
 5. Design and review the initial database schema before applying migrations.

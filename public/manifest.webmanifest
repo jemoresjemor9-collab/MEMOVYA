@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "MEMOVYA — Votre espace numérique",
+  "short_name": "MEMOVYA",
+  "description": "Votre espace numérique personnel pour conserver et organiser vos fichiers.",
+  "lang": "fr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#F8FAFC",
+  "theme_color": "#2563EB",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "/icons/memovya-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icons/memovya-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

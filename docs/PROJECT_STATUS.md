@@ -6,7 +6,7 @@ Last updated: 2026-11-16
 
 - Working name: MEMOVYA (legal clearance still pending).
 - Slogan: "Votre espace numérique. Vos souvenirs. Votre avenir."
-- Brand colors: blue #2563EB, green #10B981, violet #885CF6, light #F8FAFC.
+- Brand colors: blue #2563EB, green #10B981, violet #885CF6. Neutral backgrounds/text are permitted for readability; no additional accent colors.
 - Brand style: elegant, premium, professional, simple and intuitive.
 - Free plan target: 2 GB. The limit must be enforced server-side and in the storage authorization flow, never only in the UI.
 - Target: responsive web application for desktop, tablet and mobile.
@@ -65,7 +65,13 @@ Last updated: 2026-11-16
 - lib/supabase/proxy.ts and proxy.ts — session refresh using verified claims, following Next.js 16 Proxy convention.
 - app/dashboard/page.tsx — server-protected starter dashboard.
 - app/auth/signout/route.ts — server-side sign-out endpoint.
-- app/globals.css — responsive authentication and dashboard styles.
+- app/globals.css — responsive authentication/dashboard styles; accent gradients now use only the official blue/green/violet palette.
+- public/favicon.svg and public/apple-touch-icon.svg — SVG brand marks.
+- public/icons/memovya-192.svg and public/icons/memovya-512.svg — scalable PWA icon assets.
+- public/manifest.webmanifest — PWA metadata, standalone display and icons.
+- public/sw.js — service worker with a minimal offline fallback; authenticated dashboard/API routes are excluded from caching.
+- public/offline.html — offline notice.
+- components/pwa-register.tsx — registers the service worker in supported browsers.
 - README.md — setup and safety rules.
 
 ## Verified vs not verified
@@ -86,21 +92,23 @@ Not yet verified:
 - Supabase Auth code is committed on branch `feature/auth-email-password`; live sign-up/sign-in has not yet been tested.
 - Supabase Auth setting `Email confirmations` has NOT been disabled yet. It must be turned off in the Supabase dashboard to allow registration without email verification, as requested.
 - Google OAuth is not configured.
+- PWA files and service worker are added on branch `feature/auth-email-password`; cross-platform installation and iOS home-screen icon behavior still require browser/device testing. SVG icons are supplied; native iOS home-screen PNG icon compatibility has not yet been verified.
 - No database schema or RLS policies exist.
 - No private Storage bucket or Storage policies exist.
 - No upload/download, quota enforcement, backup, or restore feature exists.
 
 ## Immediate next actions
 
-1. Verify a new GitHub push triggers an automatic Vercel deployment.
-2. Investigate the 7 moderate npm audit advisories and ESLint deprecation warning; update dependencies deliberately and pin them with a lockfile.
-3. Review current Supabase Auth documentation and implement cookie-based SSR sessions with @supabase/ssr and PKCE.
-4. Configure email/password registration, email verification, login, logout, password reset and session refresh.
-5. Configure Google OAuth after user supplies Google Cloud OAuth client credentials through the secure dashboard UI (never in chat).
-6. Design and review the initial database schema before applying migrations.
-7. Create private Storage bucket and ownership policies only after schema/policy review.
-8. Implement quota enforcement (2 GB free) with server-side/database safeguards.
-9. Test cross-user isolation, file upload/download, deletion/restore, and backups before allowing real user data.
+1. Verify the latest PWA/brand commit builds successfully on Vercel and test installability on Android/desktop browsers and iOS Safari.
+2. Generate platform-appropriate PNG app icons (192x192, 512x512, and Apple touch icon) if needed after device validation.
+3. Investigate the 7 moderate npm audit advisories and ESLint deprecation warning; update dependencies deliberately and pin them with a lockfile.
+4. Review current Supabase Auth documentation and finish testing cookie-based SSR sessions with @supabase/ssr.
+5. Test email/password registration and login with email confirmation disabled; password reset remains deferred.
+6. Configure Google OAuth after user creates Google Cloud OAuth client credentials and enters them directly in Supabase dashboard (never in chat).
+7. Design and review the initial database schema before applying migrations.
+8. Create private Storage bucket and ownership policies only after schema/policy review.
+9. Implement quota enforcement (2 GB free) with server-side/database safeguards.
+10. Test cross-user isolation, file upload/download, deletion/restore, and backups before allowing real user data.
 
 ## Data safety requirements
 

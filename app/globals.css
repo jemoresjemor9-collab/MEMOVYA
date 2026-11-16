@@ -217,3 +217,26 @@ body { background:radial-gradient(ellipse at 10% 8%,rgba(37,99,235,.30),transpar
 .auth-google:hover:not(:disabled) { border-color: #2563EB; transform: translateY(-1px); }
 .auth-google:disabled { opacity: .7; cursor: wait; }
 .auth-google span { font-weight: 800; font-size: 17px; }
+
+/* Clear, separate account entry points */
+.top-actions { display:flex; align-items:center; gap:12px; }
+.top-actions .top-link { display:inline-flex; align-items:center; justify-content:center; }
+.top-signup {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 17px;
+  border-radius:999px;
+  color:#EAF0FF;
+  font-size:13px;
+  font-weight:750;
+  text-decoration:none;
+  background:linear-gradient(110deg,#2563EB,#885CF6 65%,#10B981);
+  box-shadow:0 8px 22px rgba(37,99,235,.16);
+}
+.top-signup:hover { transform:translateY(-1px); }
+@media (max-width:520px) {
+  .top-actions { gap:8px; }
+  .top-actions .top-link { font-size:12px; }
+  .top-signup { padding:9px 12px; font-size:12px; }
+}

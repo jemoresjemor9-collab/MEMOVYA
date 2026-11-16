@@ -278,3 +278,15 @@ body { background:radial-gradient(ellipse at 10% 8%,rgba(37,99,235,.30),transpar
   .stored-file-info { flex-basis:calc(100% - 54px); }
   .stored-files li button { flex:1; }
 }
+
+
+/* Three-level account recovery */
+.recovery-signup-block { display:grid; gap:13px; padding:17px; border:1px solid rgba(136,92,246,.3); border-radius:15px; background:linear-gradient(145deg,rgba(136,92,246,.12),rgba(37,99,235,.09),rgba(16,185,129,.10)); }
+.recovery-signup-block h3 { margin:0; color:#31569B; font:800 14px Manrope,sans-serif; }
+.recovery-signup-block > p { margin:0; color:#4263A4; font-size:11px; line-height:1.6; }
+.recovery-signup-block .auth-field { gap:6px; }
+.recovery-warning { padding:10px 11px; border-radius:10px; color:#6943A9 !important; background:rgba(136,92,246,.12); font-weight:650; }
+.recovery-switch { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
+.recovery-switch button { min-height:44px; padding:8px 10px; border:1px solid rgba(37,99,235,.2); border-radius:11px; color:#31569B; background:#C9DAFF; font-size:11px; font-weight:750; cursor:pointer; }
+.recovery-switch button.active { border-color:#885CF6; color:#EAF0FF; background:linear-gradient(110deg,#2563EB,#885CF6); }
+@media(max-width:480px) { .recovery-switch { grid-template-columns:1fr; } }

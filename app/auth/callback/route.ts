@@ -37,8 +37,8 @@ export async function GET(request: Request) {
         : "";
     const parsed = splitDisplayName(displayName);
     const emailPrefix = user.email?.split("@")[0]?.replace(/[._-]+/g, " ").trim() ?? "";
-    const firstName = String(metadata.first_name ?? metadata.given_name ?? parsed.firstName ?? emailPrefix).trim();
-    const lastName = String(metadata.last_name ?? metadata.family_name ?? parsed.lastName ?? "").trim();
+    const firstName = String(metadata.first_name || metadata.given_name || parsed.firstName || emailPrefix).trim();
+    const lastName = String(metadata.last_name || metadata.family_name || parsed.lastName || "").trim();
 
     if (!metadata.first_name || !metadata.last_name || !metadata.full_name) {
       await supabase.auth.updateUser({

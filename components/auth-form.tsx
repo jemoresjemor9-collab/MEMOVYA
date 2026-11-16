@@ -49,7 +49,7 @@ export default function AuthForm({ mode }: Props) {
           router.refresh();
           return;
         }
-        setMessage("Le compte a été créé, mais aucune session n'a été ouverte. La confirmation email est probablement encore activée dans Supabase : elle doit être désactivée pour respecter le fonctionnement provisoire sans email.");
+        setError("Le compte a été créé, mais la session ne s'est pas ouverte. Vérifiez le réglage Confirm email dans Supabase et réessayez.");
       } else {
         const { error: authError } = await supabase.auth.signInWithPassword({
           email: normalizedEmail,

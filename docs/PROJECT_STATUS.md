@@ -58,7 +58,14 @@ Last updated: 2026-11-16
 - app/layout.tsx
 - app/globals.css
 - app/page.tsx — initial branded landing page and illustrative storage dashboard preview.
-- app/login/page.tsx — visual sign-in preparation page; fields intentionally disabled until real authentication is implemented.
+- app/login/page.tsx — email/password sign-in UI wired to Supabase Auth.
+- app/signup/page.tsx — registration UI.
+- components/auth-form.tsx — client-side sign-up/sign-in form; Google button remains disabled pending OAuth setup.
+- lib/supabase/client.ts and lib/supabase/server.ts — browser and cookie-based SSR clients.
+- lib/supabase/proxy.ts and proxy.ts — session refresh using verified claims, following Next.js 16 Proxy convention.
+- app/dashboard/page.tsx — server-protected starter dashboard.
+- app/auth/signout/route.ts — server-side sign-out endpoint.
+- app/globals.css — responsive authentication and dashboard styles.
 - README.md — setup and safety rules.
 
 ## Verified vs not verified
@@ -73,8 +80,10 @@ Verified:
 
 Not yet verified:
 - No local install or separate ESLint run has been performed.
-- Automatic deployment on a new GitHub push has not yet been tested.
-- Supabase Auth is not configured or tested.
+- GitHub push triggered Vercel preview deployments for `feature/auth-email-password`; the latest deployment was queued at last check, so successful build is not yet verified.
+- No package lockfile has yet been generated/committed; dependencies in package.json are pinned to exact Supabase versions pending lockfile generation.
+- Supabase Auth code is committed on branch `feature/auth-email-password`; live sign-up/sign-in has not yet been tested.
+- Supabase Auth setting `Email confirmations` has NOT been disabled yet. It must be turned off in the Supabase dashboard to allow registration without email verification, as requested.
 - Google OAuth is not configured.
 - No database schema or RLS policies exist.
 - No private Storage bucket or Storage policies exist.

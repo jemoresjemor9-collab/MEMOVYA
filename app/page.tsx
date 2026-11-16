@@ -44,7 +44,10 @@ export default function Home() {
     <main className="shell">
       <header className="topbar">
         <a className="brand" href="/" aria-label="Memovya accueil"><BrandMark /> MEMOVYA</a>
-        <a className="top-link" href="/login">Connexion ↗</a>
+        <nav className="top-actions" aria-label="Accès au compte">
+          <a className="top-link" href="/login">Se connecter</a>
+          <a className="top-signup" href="/signup">S'inscrire</a>
+        </nav>
       </header>
       <section className="hero">
         <div>
@@ -52,8 +55,8 @@ export default function Home() {
           <h1>Tout ce qui compte, <span className="gradient-text">à portée de main.</span></h1>
           <p className="hero-copy">Vos photos, vidéos et documents réunis dans un espace pensé pour les protéger, les organiser et les retrouver facilement, où que vous soyez.</p>
           <div className="hero-actions">
-            <a className="button-primary" href="/login">Accéder à mon espace <span aria-hidden="true">→</span></a>
-            <a className="button-secondary" href="#decouvrir">Découvrir Memovya</a>
+            <a className="button-primary" href="/signup">Créer mon compte <span aria-hidden="true">→</span></a>
+            <a className="button-secondary" href="/login">J'ai déjà un compte</a>
           </div>
           <div className="trust-row">
             <span><b className="check">✓</b> Espace privé</span>

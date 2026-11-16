@@ -6,7 +6,7 @@ Last updated: 2026-11-16 (auth/PWA interface corrections)
 
 - Working name: MEMOVYA (legal clearance still pending).
 - Slogan: "Votre espace numérique. Vos souvenirs. Votre avenir."
-- Brand colors: blue #2563EB, green #10B981, violet #885CF6. Neutral backgrounds/text are permitted for readability; no additional accent colors.
+- Brand colors: blue #2563EB, green #10B981, violet #885CF6. Use only blue, green and violet plus their tints/shades for surfaces and text contrast; do not introduce white panels or white page backgrounds.
 - Brand style: elegant, premium, professional, simple and intuitive.
 - Free plan target: 2 GB. The limit must be enforced server-side and in the storage authorization flow, never only in the UI.
 - Target: responsive web application for desktop, tablet and mobile.

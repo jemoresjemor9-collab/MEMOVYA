@@ -107,12 +107,13 @@ export default function AuthForm({ mode }: Props) {
 
         setError("Le compte a été créé, mais Supabase n'a pas ouvert de session. La confirmation par e-mail doit être désactivée dans les paramètres Auth de MEMOVYA.");
       } else {
-        const { error: authError } = await supabase.auth.signInWithPassword({
+        const { data: loginData, error: authError } = await supabase.auth.signInWithPassword({
           email: normalizedEmail,
           password,
         });
         if (authError) throw authError;
-        router.replace("/dashboard");
+        const recoveryConfigured = loginData.user?.app_metadata?.memovya_recovery_configured === true;
+        router.replace(recoveryConfigured ? "/dashboard" : "/setup-recovery");
         router.refresh();
         return;
       }

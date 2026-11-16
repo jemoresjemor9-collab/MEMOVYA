@@ -21,7 +21,7 @@ export default function SignupPage() {
           <Link href="/login">J'ai déjà un compte</Link>
           <Link href="/">Retour à l'accueil</Link>
         </div>
-        <p className="auth-note">Utilisez un mot de passe unique et ne le partagez avec personne. Les fichiers ne sont pas encore ouverts au stockage.</p>
+        <p className="auth-note">La confirmation par e-mail est désactivée pour le moment. Créez votre compte avec votre adresse et un mot de passe personnel.</p>
       </section>
     </main>
   );

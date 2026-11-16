@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import PwaRegister from "@/components/pwa-register";
+import PwaInstallPrompt from "@/components/pwa-install-prompt";
 
 export const metadata: Metadata = {
   title: {
@@ -39,6 +40,7 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         <PwaRegister />
+        <PwaInstallPrompt />
         {children}
       </body>
     </html>

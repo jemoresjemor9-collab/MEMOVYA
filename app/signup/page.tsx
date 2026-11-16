@@ -21,7 +21,7 @@ export default function SignupPage() {
           <Link href="/login">J'ai déjà un compte</Link>
           <Link href="/">Retour à l'accueil</Link>
         </div>
-        <p className="auth-note">À l’inscription, définissez et conservez vos deux codes de récupération. Ils sont enregistrés sous forme chiffrée par hachage sécurisé. Après création, vous êtes connecté automatiquement.</p>
+        <p className="auth-note">À l’inscription, définissez et conservez vos deux codes de récupération. Ils sont protégés par un hachage cryptographique et ne sont pas conservés en clair. Après création, vous êtes connecté automatiquement.</p>
       </section>
     </main>
   );
